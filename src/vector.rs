@@ -1,3 +1,6 @@
+use derive_more::{Add, Neg, Sub, Mul, Div};
+
+#[derive(Debug, PartialEq, PartialOrd, Add, Sub, Mul, Div, Neg)]
 struct Vec3 {
     x: f64,
     y: f64,
@@ -49,6 +52,15 @@ impl From<Vec3> for image::Rgb<u8> {
         )
     }
 }
+
+impl std::ops::Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, rhs: Vec3) -> Self::Output {
+        rhs.map(|x| x * self)
+    }
+}
+
 impl std::ops::Mul for Vec3 {
     type Output = Self;
 
