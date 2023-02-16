@@ -1,16 +1,23 @@
 struct Vec3 {
-	x: f64,
-	y: f64,
-	z: f64,
+    x: f64,
+    y: f64,
+    z: f64,
 }
 
 impl Vec3 {
-	
-	pub fn dot(&self, ovec: &Vec3) -> f64 {
-		self.x * ovec.x + self.y * ovec.y + self.z * ovec.z
-	}
+    pub fn dot(&self, other: &Vec3) -> f64 {
+        self.x * other.x + self.y * other.y + self.z * other.z
+    }
 
-	pub fn len(&self) -> f64 {
-		(self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+    pub fn len(&self) -> f64 {
+        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+    }
+
+	pub fn cross(&self, other: &Vec3) -> Self{
+		Self {
+			x: self.y * other.z - self.z * other.y,
+			y: self.z * other.x - self.x * other.z,
+			z: self.x * other.y - self.y * other.x,
+		}
 	}
 }
