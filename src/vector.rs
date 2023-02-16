@@ -41,3 +41,11 @@ impl Vec3 {
         self.map(|x| x / len)
     }
 }
+
+impl From<Vec3> for image::Rgb<u8> {
+    fn from(v: Vec3) -> Self {
+        image::Rgb(
+            [v.x, v.y, v.z].map(|c| (c * 255.999) as u8),
+        )
+    }
+}
