@@ -4,6 +4,10 @@ struct Vec3 {
     z: f64,
 }
 
+pub type Color = Vec3;
+
+pub type Point = Vec3;
+
 impl Vec3 {
     pub fn dot(&self, other: &Vec3) -> f64 {
         self.x * other.x + self.y * other.y + self.z * other.z
