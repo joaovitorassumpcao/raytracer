@@ -1,5 +1,7 @@
 use image::{ImageBuffer, RgbImage};
 
+mod vector;
+
 fn main() {
     let (w, h) = (300, 300);
     let mut img: RgbImage = ImageBuffer::new(256, 256);
