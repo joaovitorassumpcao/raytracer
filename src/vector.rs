@@ -13,11 +13,22 @@ impl Vec3 {
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
-	pub fn cross(&self, other: &Vec3) -> Self{
-		Self {
-			x: self.y * other.z - self.z * other.y,
-			y: self.z * other.x - self.x * other.z,
-			z: self.x * other.y - self.y * other.x,
-		}
-	}
+    pub fn cross(&self, other: &Vec3) -> Self {
+        Self {
+            x: self.y * other.z - self.z * other.y,
+            y: self.z * other.x - self.x * other.z,
+            z: self.x * other.y - self.y * other.x,
+        }
+    }
+
+    pub fn map<F>(self, mut f: F) -> Self
+    where
+        F: FnMut(f64) -> f64
+    {
+        Self {
+            x: f(self.x),
+            y: f(self.y),
+            z: f(self.z),
+        }
+    }
 }
