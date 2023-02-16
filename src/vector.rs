@@ -23,12 +23,17 @@ impl Vec3 {
 
     pub fn map<F>(self, mut f: F) -> Self
     where
-        F: FnMut(f64) -> f64
+        F: FnMut(f64) -> f64,
     {
         Self {
             x: f(self.x),
             y: f(self.y),
             z: f(self.z),
         }
+    }
+
+    pub fn normalize(self) -> Self {
+        let len = self.len();
+        self.map(|x| x / len)
     }
 }
