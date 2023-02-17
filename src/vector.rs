@@ -1,6 +1,6 @@
 use derive_more::{Add, Div, Mul, Neg, Sub};
 
-#[derive(Debug, PartialEq, PartialOrd, Add, Sub, Mul, Div, Neg)]
+#[derive(Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
 pub struct Vec3 {
     x: f64,
     y: f64,
