@@ -1,4 +1,4 @@
-use derive_more::{Add, Neg, Sub, Mul, Div};
+use derive_more::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Debug, PartialEq, PartialOrd, Add, Sub, Mul, Div, Neg)]
 struct Vec3 {
@@ -10,6 +10,17 @@ struct Vec3 {
 pub type Color = Vec3;
 
 pub type Point = Vec3;
+
+#[macro_export]
+macro_rules! vec3 {
+    ($x: expr) => {
+        Vec3::new(f64::from($x), f64::from($x), f64::from($x));
+    };
+
+    ($x: expr, $y: expr, $z: expr) => {
+        Vec3::new(f64::from($x), f64::from($y), f64::from($z))
+    };
+}
 
 impl Vec3 {
     pub fn dot(&self, other: &Vec3) -> f64 {
@@ -47,9 +58,7 @@ impl Vec3 {
 
 impl From<Vec3> for image::Rgb<u8> {
     fn from(v: Vec3) -> Self {
-        image::Rgb(
-            [v.x, v.y, v.z].map(|c| (c * 255.999) as u8),
-        )
+        image::Rgb([v.x, v.y, v.z].map(|c| (c * 255.999) as u8))
     }
 }
 
