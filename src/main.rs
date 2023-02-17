@@ -1,6 +1,7 @@
 use image::{ImageBuffer, RgbImage};
 
 mod vector;
+mod ray;
 
 fn main() {
     let (w, h) = (300, 300);

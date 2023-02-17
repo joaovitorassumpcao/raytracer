@@ -1,7 +1,7 @@
 use derive_more::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Debug, PartialEq, PartialOrd, Add, Sub, Mul, Div, Neg)]
-struct Vec3 {
+pub struct Vec3 {
     x: f64,
     y: f64,
     z: f64,
@@ -10,6 +10,8 @@ struct Vec3 {
 pub type Color = Vec3;
 
 pub type Point = Vec3;
+
+pub type Direction = Vec3;
 
 #[macro_export]
 macro_rules! vec3 {
