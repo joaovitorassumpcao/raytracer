@@ -4,6 +4,14 @@ mod vector;
 mod ray;
 
 fn main() {
+    let aspect_ratio = 16.0 / 9.0;
+    let img_width: u32 = 400;
+    let img_height = img_width / aspect_ratio as u32;
+
+    let view_height = 2.0;
+    let focal_len = 1.0;
+
+
     let (w, h) = (300, 300);
     let mut img: RgbImage = ImageBuffer::new(256, 256);
 
