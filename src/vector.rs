@@ -1,6 +1,6 @@
-use derive_more::{Add, Div, Mul, Neg, Sub};
+use derive_more::{Add, Div, Mul, Neg, Sub, Constructor};
 
-#[derive(Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
+#[derive(Constructor, Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
 pub struct Vec3 {
     x: f64,
     y: f64,
@@ -15,12 +15,13 @@ pub type Direction = Vec3;
 
 #[macro_export]
 macro_rules! vec3 {
+
     ($x: expr) => {
-        Vec3::new(f64::from($x), f64::from($x), f64::from($x));
+        $crate::vector::Vec3::new(f64::from($x), f64::from($x), f64::from($x))
     };
 
     ($x: expr, $y: expr, $z: expr) => {
-        Vec3::new(f64::from($x), f64::from($y), f64::from($z))
+        $crate::vector::Vec3::new(f64::from($x), f64::from($y), f64::from($z))
     };
 }
 
