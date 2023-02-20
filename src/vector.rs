@@ -1,24 +1,26 @@
-use derive_more::{Add, Div, Mul, Neg, Sub};
+use derive_more::{Add, Constructor, Div, Mul, Neg, Sub};
 
-#[derive(Debug, PartialEq, PartialOrd, Add, Sub, Mul, Div, Neg)]
-struct Vec3 {
-    x: f64,
-    y: f64,
-    z: f64,
+#[derive(Constructor, Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
+pub struct Vec3 {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 pub type Color = Vec3;
 
 pub type Point = Vec3;
 
+pub type Direction = Vec3;
+
 #[macro_export]
 macro_rules! vec3 {
     ($x: expr) => {
-        Vec3::new(f64::from($x), f64::from($x), f64::from($x));
+        $crate::vector::Vec3::new(f64::from($x), f64::from($x), f64::from($x))
     };
 
     ($x: expr, $y: expr, $z: expr) => {
-        Vec3::new(f64::from($x), f64::from($y), f64::from($z))
+        $crate::vector::Vec3::new(f64::from($x), f64::from($y), f64::from($z))
     };
 }
 
@@ -53,6 +55,10 @@ impl Vec3 {
     pub fn normalize(self) -> Self {
         let len = self.len();
         self.map(|x| x / len)
+    }
+
+    pub fn lerp(start: Vec3, end: Vec3, t: f64) -> Vec3 {
+        (1.0 - t) * start + t * end
     }
 }
 
