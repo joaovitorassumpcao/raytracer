@@ -17,7 +17,7 @@ fn main() {
     // Calculate the position of the top left corner of the view
     let origin: vector::Point = vec3!(0);
     let (horizontal_vec, vertical_vec) = (vec3!(view_width, 0, 0), vec3!(0, -view_height, 0));
-    let top_left: vector::Point = origin - horizontal_vec / 2.0 + vertical_vec / 2.0 - vec3!(0,0, focal_len);
+    let top_left: vector::Point = origin - horizontal_vec / 2.0 - vertical_vec / 2.0 - vec3!(0,0, focal_len);
 
     let mut img: RgbImage = ImageBuffer::new(img_width, img_height);
 
