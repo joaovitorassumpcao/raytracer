@@ -16,9 +16,12 @@ impl Ray {
     }
 
     pub fn color(ray: &Ray) -> Color {
-        //let direction = ray.direction.normalize();
+        // Calculate the unit vector of the ray direction
+        // and use it to calculate the t value
+        // t = 0.5 * (unit_direction.y + 1.0)
         let t = 0.5 * (ray.direction.normalize().y + 1.0);
 
+        // Linearly interpolate between white and blue
         Vec3::lerp(vec3!(0.5, 0.7, 1.0), vec3!(1), t)
     }
 }

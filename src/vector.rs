@@ -26,10 +26,12 @@ macro_rules! vec3 {
 
 impl Vec3 {
     pub fn dot(&self, other: &Vec3) -> f64 {
+        // x1 * x2 + y1 * y2 + z1 * z2
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
     pub fn len(&self) -> f64 {
+        // sqrt(x^2 + y^2 + z^2) 
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
@@ -57,6 +59,7 @@ impl Vec3 {
         self.map(|x| x / len)
     }
 
+    /// Linearly interpolate between two vectors
     pub fn lerp(start: Vec3, end: Vec3, t: f64) -> Vec3 {
         start * t + end * (1.0 - t)
     }

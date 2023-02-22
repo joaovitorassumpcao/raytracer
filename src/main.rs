@@ -23,9 +23,11 @@ fn main() {
 
     for (i, j, pixel) in img.enumerate_pixels_mut() {
 
-        // Calculate the ray direction
+        // 0.0 <= t <= 1.0
         let u = i as f64 / (img_width - 1) as f64;
         let v = j as f64 / (img_height - 1) as f64;
+
+        // Calculate the ray direction
         let ray = top_left + u * horizontal_vec + v * vertical_vec - origin;
 
         // Calculate the color for the pixel using the ray
