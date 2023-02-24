@@ -2,6 +2,7 @@ use image::{ImageBuffer, RgbImage};
 use ray::Ray;
 mod vector;
 mod ray;
+mod object;
 
 fn main() {
     // Set up the image parameters
