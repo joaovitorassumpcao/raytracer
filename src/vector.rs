@@ -31,7 +31,7 @@ impl Vec3 {
     }
 
     pub fn len(&self) -> f64 {
-        // sqrt(x^2 + y^2 + z^2) 
+        // sqrt(x^2 + y^2 + z^2)
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
