@@ -6,8 +6,8 @@ use derive_more::Constructor;
 
 #[derive(Debug, PartialEq, PartialOrd, Clone, Constructor)]
 pub struct Ray {
-    origin: Point,
-    direction: Direction,
+    pub origin: Point,
+    pub direction: Direction,
 }
 
 impl Ray {
