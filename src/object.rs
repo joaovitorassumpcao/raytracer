@@ -36,10 +36,11 @@ impl Object for Sphere {
 
         let discriminant_sqrt = discriminant.sqrt();
         let a2 = 2.0 * a;
+        let bound_range = bound_start..bound_end;
         let mut root = (-b - discriminant_sqrt) / a2;
-        if (bound_start..bound_end).contains(&root) {
+        if bound_range.contains(&root) {
             root = (-b + discriminant_sqrt) / a2;
-            if (bound_start..bound_end).contains(&root) {
+            if bound_range.contains(&root) {
                 return None;
             }
         }
