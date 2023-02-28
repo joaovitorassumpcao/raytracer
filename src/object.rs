@@ -9,7 +9,7 @@ pub struct Sphere {
 }
 
 impl Sphere {
-    pub fn hit(&self, ray: &Ray) -> bool {
+    pub fn hit(&self, ray: &Ray) -> Option<f64> {
         let v = ray.direction;
         let oc = ray.origin - self.center;
         let a = v.dot(&v);
@@ -17,6 +17,10 @@ impl Sphere {
         let c = oc.dot(&oc) - self.radius.powi(2);
 
         let discriminant = b.powi(2) - 4.0 * a * c;
-        discriminant >= 0.0
+        if discriminant < 0.0 {
+            return None;
+        }
+
+        Some((-b - discriminant.sqrt()) / (2.0 * a))
     }
 }

@@ -17,15 +17,19 @@ impl Ray {
     }
 
     pub fn color(ray: &Ray) -> Color {
-        // Calculate the unit vector of the ray direction
-        // and use it to calculate the t value
-        // t = 0.5 * (unit_direction.y + 1.0)
-        let t = 0.5 * (ray.direction.normalize().y + 1.0);
-
         let sphere = crate::object::Sphere::new(vec3!(0, 0, -1), 0.5);
-        if sphere.hit(ray) {
-            return vec3!(1, 0, 0);
+
+        if let Some(t) = sphere.hit(ray) {
+            // return scaled surface normal
+            let surface_normal = (ray.at(t) - sphere.center).normalize();
+            return surface_normal.map(|mut x| {
+                x += 1.0;
+                x / 2.0
+            });
         }
+
+        // Calculate the unit vector of the ray direction
+        let t = 0.5 * (ray.direction.normalize().y + 1.0);
 
         // Linearly interpolate between white and blue
         Vec3::lerp(vec3!(0.5, 0.7, 1.0), vec3!(1), t)
