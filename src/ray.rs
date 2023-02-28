@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::{
     vec3,
-    vector::{Color, Direction, Point, Vec3},
+    vector::{Color, Direction, Point, Vec3}, object::Object,
 };
 use derive_more::Constructor;
 
