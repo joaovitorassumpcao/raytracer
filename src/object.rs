@@ -1,6 +1,14 @@
 use derive_more::Constructor;
 
-use crate::{ray::Ray, vector::Point};
+pub trait Object {
+    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit>;
+}
+
+pub struct Hit {
+    intersec: Point,
+    normal: Vec3,
+    t: f64,
+}
 
 #[derive(Debug, Constructor)]
 pub struct Sphere {
