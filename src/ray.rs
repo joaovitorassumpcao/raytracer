@@ -19,9 +19,9 @@ impl Ray {
     pub fn color(ray: &Ray) -> Color {
         let sphere = crate::object::Sphere::new(vec3!(0, 0, -1), 0.5);
 
-        if let Some(t) = sphere.hit(ray) {
+        if let Some(hit) = sphere.hit(ray, (1.0 , u64::MAX as f64)) {
             // return scaled surface normal
-            let surface_normal = (ray.at(t) - sphere.center).normalize();
+            let surface_normal = (ray.at(hit.t) - sphere.center).normalize();
             return surface_normal.map(|mut x| {
                 x += 1.0;
                 x / 2.0

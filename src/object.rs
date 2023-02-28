@@ -10,9 +10,9 @@ pub trait Object {
 }
 
 pub struct Hit {
-    intersec: Point,
-    normal: Vec3,
-    t: f64,
+    pub intersec: Point,
+    pub normal: Vec3,
+    pub t: f64,
 }
 
 #[derive(Debug, Constructor)]
@@ -37,9 +37,9 @@ impl Object for Sphere {
         let discriminant_sqrt = discriminant.sqrt();
         let a2 = 2.0 * a;
         let mut root = (-b - discriminant_sqrt) / a2;
-        if !matches!(root, bound_start..=bound_end) {
+        if (bound_start..bound_end).contains(&root) {
             root = (-b + discriminant_sqrt) / a2;
-            if !matches!(root, bound_start..=bound_end) {
+            if (bound_start..bound_end).contains(&root) {
                 return None;
             }
         }
