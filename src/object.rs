@@ -13,6 +13,7 @@ pub struct Hit {
     pub intersec: Point,
     pub normal: Vec3,
     pub t: f64,
+    pub front_face: bool,
 }
 
 #[derive(Debug, Constructor)]
@@ -48,10 +49,16 @@ impl Object for Sphere {
         let intersec = ray.at(root);
         let normal = (intersec - self.center) / self.radius;
 
+        let (front_face, normal) = match ray.direction.dot(&normal) {
+            x if x > 0.0 => (false, -normal),
+            _ => (true, normal),
+        };
+
         Some( Hit {
             intersec,
             normal,
             t: root,
+            front_face,
         })
     }
 }
