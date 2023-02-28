@@ -1,14 +1,6 @@
 use derive_more::Constructor;
 
-pub trait Object {
-    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit>;
-}
-
-pub struct Hit {
-    intersec: Point,
-    normal: Vec3,
-    t: f64,
-}
+use crate::{ray::Ray, vector::Point};
 
 #[derive(Debug, Constructor)]
 pub struct Sphere {
@@ -16,8 +8,8 @@ pub struct Sphere {
     pub radius: f64,
 }
 
-impl Sphere {
-    pub fn hit(&self, ray: &Ray) -> Option<f64> {
+impl Object for Sphere {
+    fn hit(&self, ray: &Ray, (bound_start, bound_end): (f64, f64)) -> Option<Hit> {
         let v = ray.direction;
         let oc = ray.origin - self.center;
         let a = v.dot(&v);
@@ -29,6 +21,23 @@ impl Sphere {
             return None;
         }
 
-        Some((-b - discriminant.sqrt()) / (2.0 * a))
+        let discriminant_sqrt = discriminant.sqrt();
+        let a2 = 2.0 * a;
+        let mut root = (-b - discriminant_sqrt) / a2;
+        if !matches!(root, bound_start..=bound_end) {
+            root = (-b + discriminant_sqrt) / a2;
+            if !matches!(root, bound_start..=bound_end) {
+                return None;
+            }
+        }
+
+        let intersec = ray.at(root);
+        let normal = (intersec - self.center) / self.radius;
+
+        Some( Hit {
+            intersec,
+            normal,
+            t: root,
+        })
     }
 }
