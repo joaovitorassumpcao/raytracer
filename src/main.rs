@@ -11,7 +11,7 @@ mod vector;
 fn main() {
     // Set up the image parameters
     let aspect_ratio = 16.0 / 9.0;
-    let img_width: u32 = 400;
+    let img_width: u32 = 1920;
     let img_height = (img_width as f64 / aspect_ratio) as u32;
 
     // Set up the view parameters
