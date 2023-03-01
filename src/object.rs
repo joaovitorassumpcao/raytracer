@@ -12,17 +12,6 @@ pub trait Object {
     fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit>;
 }
 
-pub type Scene = Vec<Box<dyn Object + Sync>>;
-
-impl Object for Scene {
-    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
-        self.par_iter()
-            .filter_map(|x| x.hit(ray, bounds))
-            .min_by(|x , y| x.t.partial_cmp(&y.t)
-            .unwrap())
-    }
-}
-
 #[derive(Debug)]
 pub struct Hit {
     pub intersec: Point,
@@ -38,27 +27,28 @@ pub struct Sphere {
 }
 
 impl Object for Sphere {
-    fn hit(&self, ray: &Ray, (bound_start, bound_end): (f64, f64)) -> Option<Hit> {
+    fn hit(&self, ray: &Ray, bound: (f64, f64)) -> Option<Hit> {
         let v = ray.direction;
         let oc = ray.origin - self.center;
         let a = v.dot(&v);
         let b = 2.0 * oc.dot(&ray.direction);
-        let c = oc.dot(&oc) - self.radius.powi(2);
+        let c = oc.dot(&oc) - self.radius.powf(2.0);
 
-        let discriminant = b.powi(2) - 4.0 * a * c;
+        let discriminant = b.powf(2.0) - 4.0 * a * c;
         if discriminant < 0.0 {
             return None;
         }
 
-        let discriminant_sqrt = discriminant.sqrt();
-        let a2 = 2.0 * a;
-        let bound_range = bound_start..bound_end;
-        let mut root = (-b - discriminant_sqrt) / a2;
-        if bound_range.contains(&root) {
-            root = (-b + discriminant_sqrt) / a2;
-            if bound_range.contains(&root) {
-                return None;
+        let bound_range = bound.0..=bound.1;
+        let mut root = (-b - discriminant.sqrt()) / (2.0 * a);
+        match bound_range.contains(&root) {
+            true => {
+                root = (-b + discriminant.sqrt()) / (2.0 * a);
+                if bound_range.contains(&root) {
+                    return None;
+                }
             }
+            false => (),
         }
 
         let intersec = ray.at(root);
@@ -75,5 +65,15 @@ impl Object for Sphere {
             t: root,
             front_face,
         })
+    }
+}
+
+pub type Scene = Vec<Box<dyn Object + Sync>>;
+
+impl Object for Scene {
+    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
+        self.par_iter()
+            .filter_map(|x| x.hit(ray, bounds))
+            .min_by(|x, y| x.t.partial_cmp(&y.t).unwrap())
     }
 }

@@ -25,17 +25,17 @@ macro_rules! vec3 {
 }
 
 impl Vec3 {
-    pub fn dot(&self, other: &Vec3) -> f64 {
+    pub fn dot(&self, other: &Self) -> f64 {
         // x1 * x2 + y1 * y2 + z1 * z2
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
     pub fn len(&self) -> f64 {
         // sqrt(x^2 + y^2 + z^2)
-        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+        (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).sqrt()
     }
 
-    pub fn cross(&self, other: &Vec3) -> Self {
+    pub fn cross(&self, other: &Self) -> Self {
         Self {
             x: self.y * other.z - self.z * other.y,
             y: self.z * other.x - self.x * other.z,
@@ -55,12 +55,11 @@ impl Vec3 {
     }
 
     pub fn normalize(self) -> Self {
-        let len = self.len();
-        self.map(|x| x / len)
+        self / self.len()
     }
 
     /// Linearly interpolate between two vectors
-    pub fn lerp(start: Vec3, end: Vec3, t: f64) -> Vec3 {
+    pub fn lerp(start: Self, end: Self, t: f64) -> Self {
         start * t + end * (1.0 - t)
     }
 }
