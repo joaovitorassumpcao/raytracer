@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use derive_more::Constructor;
+use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 
 use crate::{
     ray::Ray,
@@ -11,11 +12,14 @@ pub trait Object {
     fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit>;
 }
 
-pub type Scene = Vec<Box<dyn Object>>;
+pub type Scene = Vec<Box<dyn Object + Sync>>;
 
 impl Object for Scene {
     fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
-        todo!()
+        self.par_iter()
+            .filter_map(|x| x.hit(ray, bounds))
+            .min_by(|x , y| x.t.partial_cmp(&y.t)
+            .expect("Scene hit comparison failure"))
     }
 }
 
