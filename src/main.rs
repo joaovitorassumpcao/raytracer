@@ -7,7 +7,6 @@ use vector::Point;
 mod object;
 mod ray;
 mod vector;
-mod scene;
 
 fn main() {
     // Set up the image parameters
