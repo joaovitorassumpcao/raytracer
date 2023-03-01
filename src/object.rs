@@ -27,7 +27,7 @@ pub struct Sphere {
 }
 
 impl Object for Sphere {
-    fn hit(&self, ray: &Ray, bound: (f64, f64)) -> Option<Hit> {
+    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
         let v = ray.direction;
         let oc = ray.origin - self.center;
         let a = v.dot(&v);
@@ -39,12 +39,12 @@ impl Object for Sphere {
             return None;
         }
 
-        let bound_range = bound.0..=bound.1;
+        let bound_range = bounds.0..=bounds.1;
         let mut root = (-b - discriminant.sqrt()) / (2.0 * a);
-        match bound_range.contains(&root) {
+        match !(bound_range).contains(&root) {
             true => {
                 root = (-b + discriminant.sqrt()) / (2.0 * a);
-                if bound_range.contains(&root) {
+                if !(bound_range).contains(&root) {
                     return None;
                 }
             }
