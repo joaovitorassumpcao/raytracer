@@ -19,7 +19,7 @@ impl Object for Scene {
         self.par_iter()
             .filter_map(|x| x.hit(ray, bounds))
             .min_by(|x , y| x.t.partial_cmp(&y.t)
-            .expect("Scene hit comparison failure"))
+            .unwrap())
     }
 }
 
