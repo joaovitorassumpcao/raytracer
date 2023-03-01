@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use derive_more::Constructor;
 
 use crate::{
@@ -9,6 +11,15 @@ pub trait Object {
     fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit>;
 }
 
+pub type Scene = Vec<Box<dyn Object>>;
+
+impl Object for Scene {
+    fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
+        todo!()
+    }
+}
+
+#[derive(Debug)]
 pub struct Hit {
     pub intersec: Point,
     pub normal: Vec3,
@@ -54,7 +65,7 @@ impl Object for Sphere {
             _ => (true, normal),
         };
 
-        Some( Hit {
+        Some(Hit {
             intersec,
             normal,
             t: root,
