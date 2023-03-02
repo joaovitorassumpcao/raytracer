@@ -27,7 +27,7 @@ fn main() {
 	img.enumerate_pixels_mut().par_bridge().for_each(|(i, j, pixel)| {
 		let samples: u32 = 100;
 		let mut colorpx = vec3!(0);
-		for _ in 0..=samples {
+		(0..=samples).for_each(|_| {
 			// 0.0 <= t <= 1.0
 			let u = (i as f64 + random::<f64>()) / (img_width - 1) as f64;
 			let v = (j as f64 + random::<f64>()) / (img_height - 1) as f64;
@@ -35,7 +35,7 @@ fn main() {
 			// Calculate the ray direction
 			let ray = camera.get_ray(u, v);
 			colorpx = colorpx + ray::color(&ray, &scene);
-		}
+		});
 
 		// Calculate the color for the pixel using the ray
 		*pixel = (colorpx / samples as f64).into();
