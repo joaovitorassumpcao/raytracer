@@ -1,6 +1,7 @@
 use crate::{
+    ray::Ray,
     vec3,
-    vector::{Point, Vec3}, ray::Ray,
+    vector::{Point, Vec3},
 };
 
 #[derive(Debug, Clone)]
@@ -34,6 +35,6 @@ impl Default for Camera {
 impl Camera {
     pub fn get_ray(&self, u: f64, v: f64) -> Ray {
         let ray_dir: Vec3 = self.tl_corner + u * self.h_vec + v * self.v_vec - self.origin;
-		Ray::new(self.origin, ray_dir)
+        Ray::new(self.origin, ray_dir)
     }
 }

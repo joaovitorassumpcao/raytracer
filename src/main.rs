@@ -1,8 +1,6 @@
 use image::{ImageBuffer, RgbImage};
 use object::{Scene, Sphere};
-use ray::Ray;
 use rayon::prelude::*;
-use vector::{Point, Vec3};
 use rand::random;
 
 mod object;
@@ -14,6 +12,7 @@ fn main() {
 	let camera = camera::Camera::default();
 
 	// Set up the image parameters
+	let aspect_ratio = 16.0 / 9.0;
 	let img_width: u32 = 400;
 	let img_height = (img_width as f64 / aspect_ratio) as u32;
 	
@@ -34,8 +33,8 @@ fn main() {
 			let v = (j as f64 + random::<f64>()) / (img_height - 1) as f64;
 
 			// Calculate the ray direction
-			
-			colorpx = colorpx + ray::color(&Ray::new(origin, ray_dir), &scene);
+			let ray = camera.get_ray(u, v);
+			colorpx = colorpx + ray::color(&ray, &scene);
 		}
 
 		// Calculate the color for the pixel using the ray
