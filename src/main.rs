@@ -34,7 +34,7 @@ fn main() {
 			let v = (j as f64 + random::<f64>()) / (img_height - 1) as f64;
 
 			// Calculate the ray direction
-			let ray_dir: Vec3 = top_left + u * horizontal_vec + v * vertical_vec - origin;
+			
 			colorpx = colorpx + ray::color(&Ray::new(origin, ray_dir), &scene);
 		}
 
