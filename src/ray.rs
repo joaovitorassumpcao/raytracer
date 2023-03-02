@@ -20,7 +20,7 @@ impl Ray {
 }
 
 pub fn color(ray: &Ray, scene: &impl Object) -> Color {
-    match scene.hit(ray, (0.001, f64::INFINITY)) {
+    match scene.hit(ray, (0.0, f64::INFINITY)) {
         Some(hit) => (hit.normal + vec3!(1)) / 2.0,
         None => {
             // Calculate the unit vector of the ray direction

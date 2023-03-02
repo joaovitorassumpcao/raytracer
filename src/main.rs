@@ -2,7 +2,8 @@ use image::{ImageBuffer, RgbImage};
 use object::{Scene, Sphere};
 use ray::Ray;
 use rayon::prelude::*;
-use vector::Point;
+use vector::{Point, Vec3};
+use rand::random;
 
 mod object;
 mod ray;
@@ -11,7 +12,7 @@ mod vector;
 fn main() {
     // Set up the image parameters
     let aspect_ratio = 16.0 / 9.0;
-    let img_width: u32 = 1920;
+    let img_width: u32 = 400;
     let img_height = (img_width as f64 / aspect_ratio) as u32;
 
     // Set up the view parameters
@@ -34,16 +35,21 @@ fn main() {
     ];
 
     img.enumerate_pixels_mut().par_bridge().for_each(|(i, j, pixel)| {
-        // 0.0 <= t <= 1.0
-        let u = i as f64 / (img_width - 1) as f64;
-        let v = j as f64 / (img_height - 1) as f64;
+        let samples: u32 = 100;
+        let mut colorpx = vec3!(0);
+        for _ in 0..=samples {
+            // 0.0 <= t <= 1.0
+            let u = (i as f64 + random::<f64>()) / (img_width - 1) as f64;
+            let v = (j as f64 + random::<f64>()) / (img_height - 1) as f64;
 
-        // Calculate the ray direction
-        let ray_dir = top_left + u * horizontal_vec + v * vertical_vec - origin;
+            // Calculate the ray direction
+            let ray_dir: Vec3 = top_left + u * horizontal_vec + v * vertical_vec - origin;
+            colorpx = colorpx + ray::color(&Ray::new(origin, ray_dir), &scene);
+        }
 
         // Calculate the color for the pixel using the ray
-        let ray = Ray::new(origin, ray_dir);
-        *pixel = ray::color(&ray, &scene).into();
+        *pixel = (colorpx / samples as f64).into();
+
     });
 
     img.save("render.png").expect("image error");
