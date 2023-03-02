@@ -8,6 +8,7 @@ use rand::random;
 mod object;
 mod ray;
 mod vector;
+mod camera;
 
 fn main() {
     // Set up the image parameters
