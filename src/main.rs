@@ -10,6 +10,8 @@ mod ray;
 mod vector;
 
 fn main() {
+    let max_depth: u8 = 50;
+
     let camera = camera::Camera::default();
 
     // Set up the image parameters
@@ -44,7 +46,7 @@ fn main() {
 
                 // Calculate the ray direction
                 let ray = camera.get_ray(u, v);
-                colorpx = colorpx + ray::color(&ray, &scene);
+                colorpx = colorpx + ray::color(&ray, &scene, max_depth);
             });
 
             // Calculate the color for the pixel using the ray

@@ -65,8 +65,8 @@ impl Vec3 {
     }
 
     pub fn rand_unitvec() -> Self {
+        let mut rng: rand::rngs::ThreadRng = thread_rng();
         loop {
-            let mut rng: rand::rngs::ThreadRng = thread_rng();
             let univec = vec3!(
                 rng.gen_range(-1.0..1.0),
                 rng.gen_range(-1.0..1.0),
