@@ -1,4 +1,5 @@
 use derive_more::{Add, Constructor, Div, Mul, Neg, Sub};
+use rand::{thread_rng, Rng};
 
 #[derive(Constructor, Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
 pub struct Vec3 {
@@ -61,6 +62,20 @@ impl Vec3 {
     /// Linearly interpolate between two vectors
     pub fn lerp(start: Self, end: Self, t: f64) -> Self {
         start * t + end * (1.0 - t)
+    }
+
+    pub fn rand_unitvec() -> Self {
+        loop {
+            let mut rng: rand::rngs::ThreadRng = thread_rng();
+            let univec = vec3!(
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0)
+            );
+            if univec.len() < 1.0 {
+                break univec.normalize();
+            }
+        }
     }
 }
 
