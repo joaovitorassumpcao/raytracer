@@ -81,7 +81,7 @@ impl Vec3 {
 
 impl From<Vec3> for image::Rgb<u8> {
     fn from(v: Vec3) -> Self {
-        image::Rgb([v.x, v.y, v.z].map(|c| (c * 255.999) as u8))
+        image::Rgb([v.x, v.y, v.z].map(|c| (c.sqrt() * 255.999) as u8))
     }
 }
 

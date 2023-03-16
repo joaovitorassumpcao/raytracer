@@ -54,5 +54,5 @@ fn main() {
         });
     bar.finish_with_message(" -> Done!");
 
-    img.save("render.png").expect("image error");
+    img.save("render.png").expect(" -> Render error!");
 }
