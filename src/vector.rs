@@ -1,4 +1,5 @@
 use derive_more::{Add, Constructor, Div, Mul, Neg, Sub};
+use rand::{thread_rng, Rng};
 
 #[derive(Constructor, Debug, PartialEq, Clone, Copy, PartialOrd, Add, Sub, Mul, Div, Neg)]
 pub struct Vec3 {
@@ -62,11 +63,25 @@ impl Vec3 {
     pub fn lerp(start: Self, end: Self, t: f64) -> Self {
         start * t + end * (1.0 - t)
     }
+
+    pub fn rand_unitvec() -> Self {
+        let mut rng: rand::rngs::ThreadRng = thread_rng();
+        loop {
+            let univec = vec3!(
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0),
+                rng.gen_range(-1.0..1.0)
+            );
+            if univec.len() < 1.0 {
+                break univec.normalize();
+            }
+        }
+    }
 }
 
 impl From<Vec3> for image::Rgb<u8> {
     fn from(v: Vec3) -> Self {
-        image::Rgb([v.x, v.y, v.z].map(|c| (c * 255.999) as u8))
+        image::Rgb([v.x, v.y, v.z].map(|c| (c.sqrt() * 255.999) as u8))
     }
 }
 
