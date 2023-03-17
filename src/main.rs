@@ -8,6 +8,7 @@ mod camera;
 mod object;
 mod ray;
 mod vector;
+mod material;
 
 fn main() {
     let max_depth: u8 = 50;
