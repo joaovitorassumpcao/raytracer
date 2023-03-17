@@ -10,3 +10,9 @@ pub trait Material {
 }
 
 pub struct Lambertian(Color);
+
+impl Material for Lambertian {
+    fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
+        todo!()
+    }
+}
