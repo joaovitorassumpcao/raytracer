@@ -1,9 +1,12 @@
+use derive_more::Constructor;
+
 use crate::{
     object::Hit,
     ray::Ray,
     vector::{Color, Vec3},
 };
 
+#[derive(Debug, Clone, Constructor)]
 pub struct Reflection {
     ray: Ray,
     atten_color: Color,
