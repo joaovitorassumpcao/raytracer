@@ -1,14 +1,15 @@
 use image::{ImageBuffer, RgbImage};
 use indicatif::{ParallelProgressIterator, ProgressBar, ProgressStyle};
+use material::Lambertian;
 use object::{Scene, Sphere};
 use rand::random;
 use rayon::prelude::*;
 
 mod camera;
+mod material;
 mod object;
 mod ray;
 mod vector;
-mod material;
 
 fn main() {
     let max_depth: u8 = 50;
@@ -23,8 +24,16 @@ fn main() {
     let mut img: RgbImage = ImageBuffer::new(img_width, img_height);
 
     let scene: Scene = vec![
-        Box::new(Sphere::new(vec3!(0, 0, -1), 0.5)),
-        Box::new(Sphere::new(vec3!(0, -100.5, -1), 100.0)),
+        Box::new(Sphere::new(
+            vec3!(0, 0, -1),
+            0.5,
+            Lambertian::new(vec3!(0.5)),
+        )),
+        Box::new(Sphere::new(
+            vec3!(0, -100.5, -1),
+            100.0,
+            Lambertian::new(vec3!(0.5)),
+        )),
     ];
 
     let bar: ProgressBar = ProgressBar::new((img_width * img_height) as u64);

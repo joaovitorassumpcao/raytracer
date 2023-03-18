@@ -25,12 +25,10 @@ pub fn color(ray: &Ray, scene: &impl Object, depth: u8) -> Color {
     };
 
     match scene.hit(ray, (0.00001, f64::INFINITY)) {
-        Some(hit) => {
-            //(hit.normal + vec3!(1)) / 2.0
-            let direction = hit.normal + Vec3::rand_unitvec();
-            let origin = hit.intersec;
-            0.5 * color(&Ray::new(origin, direction), scene, depth - 1)
-        }
+        Some(hit) => match hit.reflection {
+            Some(refl) => refl.color_atten * color(&refl.ray, scene, depth - 1),
+            None => vec3!(0),
+        },
         None => {
             // Calculate the unit vector of the ray direction
             let t = 0.5 * (ray.direction.normalize().y + 1.0);

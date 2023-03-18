@@ -8,14 +8,15 @@ use crate::{
 
 #[derive(Debug, Clone, Constructor)]
 pub struct Reflection {
-    ray: Ray,
-    atten_color: Color,
+    pub ray: Ray,
+    pub color_atten: Color,
 }
 
 pub trait Material {
     fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection>;
 }
 
+#[derive(Debug, Clone, Copy, Constructor)]
 pub struct Lambertian(Color);
 
 impl Material for Lambertian {
@@ -28,7 +29,7 @@ impl Material for Lambertian {
         let ray = Ray::new(hit.intersec, direction);
         Some(Reflection {
             ray,
-            atten_color: self.0,
+            color_atten: self.0,
         })
     }
 }

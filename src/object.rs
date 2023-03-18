@@ -65,7 +65,7 @@ where
             _ => (true, normal),
         };
 
-        let hit = Hit {
+        let mut hit = Hit {
             intersec,
             normal,
             t: root,
