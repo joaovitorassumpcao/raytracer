@@ -1,3 +1,3 @@
-# raytracer
+# raytracer [<img align="right" src="https://wakatime.com/badge/github/joaovitorassumpcao/raytracer.svg?style=flat">](https://github.com/joaovitorassumpcao/raytracer)
 
-![alt text](./render.png)
+![Render](./render.png)
