@@ -77,6 +77,16 @@ impl Vec3 {
             }
         }
     }
+
+    pub fn is_zero(&self) -> bool {
+        let tolerance: f64 = 1e-8;
+        let vectol: Self = Self {
+            x: tolerance,
+            y: tolerance,
+            z: tolerance,
+        };
+        self < &vectol
+    }
 }
 
 impl From<Vec3> for image::Rgb<u8> {

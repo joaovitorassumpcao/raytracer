@@ -21,10 +21,11 @@ pub struct Lambertian(Color);
 
 impl Material for Lambertian {
     fn scatter(&self, _incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
-        let direction = hit.normal + Vec3::rand_unitvec();
+        let mut direction: Vec3 = hit.normal + Vec3::rand_unitvec();
 
-        //let origin = hit.intersec;
-        //0.5 * color(&Ray::new(origin, direction), scene, depth - 1)
+        if direction.is_zero() {
+            direction = hit.normal;
+        }
 
         let ray = Ray::new(hit.intersec, direction);
         Some(Reflection {
