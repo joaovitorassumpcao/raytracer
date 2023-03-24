@@ -26,6 +26,14 @@ macro_rules! vec3 {
 }
 
 impl Vec3 {
+    const TOLERANCE: f64 = 1e-8;
+
+    const VEC_TOL: Self = Self {
+        x: Self::TOLERANCE,
+        y: Self::TOLERANCE,
+        z: Self::TOLERANCE,
+    };
+
     pub fn dot(&self, other: &Self) -> f64 {
         // x1 * x2 + y1 * y2 + z1 * z2
         self.x * other.x + self.y * other.y + self.z * other.z
@@ -79,13 +87,7 @@ impl Vec3 {
     }
 
     pub fn is_zero(&self) -> bool {
-        let tolerance: f64 = 1e-8;
-        let vectol: Self = Self {
-            x: tolerance,
-            y: tolerance,
-            z: tolerance,
-        };
-        self < &vectol
+        self < &Self::VEC_TOL
     }
 }
 
