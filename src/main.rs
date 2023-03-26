@@ -53,12 +53,12 @@ fn main() {
             let samples: u32 = 100;
             let mut colorpx = vec3!(0);
 
+            // multisampling
             (0..=samples).for_each(|_| {
                 // 0.0 <= t <= 1.0
                 let u = (i as f64 + random::<f64>()) / (IMG_WIDTH - 1) as f64;
                 let v = (j as f64 + random::<f64>()) / (IMG_HEIGHT - 1) as f64;
 
-                // Calculate the ray direction
                 let ray = camera.get_ray(u, v);
                 colorpx = colorpx + ray::color(&ray, &scene, MAX_DEPTH);
             });
@@ -66,6 +66,7 @@ fn main() {
             // Calculate the color for the pixel using the ray
             *pixel = (colorpx / samples as f64).into();
         });
+
     bar.finish_with_message(" -> Done!");
 
     img.save("render.png").expect(" -> Render error!");
