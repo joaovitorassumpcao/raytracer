@@ -8,7 +8,7 @@ use derive_more::Constructor;
 use crate::{
     object::Hit,
     ray::Ray,
-    vector::{Color, Vec3},
+    vector::{rand_unitvec, Color, Vec3},
 };
 
 #[derive(Debug, Clone, Constructor)]
@@ -20,6 +20,7 @@ pub struct Reflection {
 #[derive(Debug, Clone, Copy, Constructor)]
 pub struct Metal {
     color: Color,
+    fuzz: f64,
 }
 
 pub trait Material {
@@ -31,14 +32,14 @@ pub struct Lambertian(Color);
 
 impl Material for Lambertian {
     fn scatter(&self, _incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
-        let mut direction: Vec3 = hit.normal + Vec3::rand_unitvec();
+        let mut direction: Vec3 = hit.normal + rand_unitvec();
 
         if direction.is_zero() {
             direction = hit.normal;
         }
 
         let ray = Ray::new(hit.intersec, direction);
-        
+
         Some(Reflection {
             ray,
             color_atten: self.0,
@@ -48,7 +49,7 @@ impl Material for Lambertian {
 
 impl Material for Metal {
     fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
-        let reflection = reflect(incident_ray.direction, &hit.normal);
+        let reflection = reflect(incident_ray.direction, &hit.normal) + self.fuzz * rand_unitvec();
         let scattered = Ray::new(hit.intersec, reflection);
 
         match scattered.direction.dot(&hit.normal) > 0.0 {

@@ -77,20 +77,6 @@ impl Vec3 {
         start * t + end * (1.0 - t)
     }
 
-    pub fn rand_unitvec() -> Self {
-        let mut rng: rand::rngs::ThreadRng = thread_rng();
-        loop {
-            let univec = vec3!(
-                rng.gen_range(-1.0..=1.0),
-                rng.gen_range(-1.0..=1.0),
-                rng.gen_range(-1.0..=1.0)
-            );
-            if univec.len() < 1.0 {
-                break univec.normalize();
-            }
-        }
-    }
-
     pub fn is_zero(&self) -> bool {
         &Self {
             x: self.x.abs(),
@@ -122,6 +108,20 @@ impl std::ops::Mul for Vec3 {
             x: self.x * rhs.x,
             y: self.y * rhs.y,
             z: self.z * rhs.z,
+        }
+    }
+}
+
+pub fn rand_unitvec() -> Vec3 {
+    let mut rng: rand::rngs::ThreadRng = thread_rng();
+    loop {
+        let univec = vec3!(
+            rng.gen_range(-1.0..=1.0),
+            rng.gen_range(-1.0..=1.0),
+            rng.gen_range(-1.0..=1.0)
+        );
+        if univec.len() < 1.0 {
+            break univec.normalize();
         }
     }
 }

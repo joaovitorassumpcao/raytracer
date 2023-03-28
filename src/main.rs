@@ -43,12 +43,12 @@ fn main() {
         Box::new(Sphere::new(
             vec3!(-1, 0, -1),
             0.5,
-            Metal::new(vec3!(0.8, 0.8, 0.8)),
+            Metal::new(vec3!(0.8, 0.8, 0.8), 0.3),
         )),
         Box::new(Sphere::new(
             vec3!(1, 0, -1),
             0.5,
-            Metal::new(vec3!(0.8, 0.6, 0.2)),
+            Metal::new(vec3!(0.8, 0.6, 0.2), 1.0),
         )),
     ];
 
