@@ -10,6 +10,8 @@ use object::{Scene, Sphere};
 use rand::random;
 use rayon::prelude::*;
 
+use crate::material::Metal;
+
 mod camera;
 mod material;
 mod object;
@@ -20,7 +22,7 @@ fn main() {
     // Set up the image parameters
     const MAX_DEPTH: u8 = 50;
     const ASPECT_RATIO: f64 = 16.0 / 9.0;
-    const IMG_WIDTH: u32 = 1920;
+    const IMG_WIDTH: u32 = 1000;
     const IMG_HEIGHT: u32 = (IMG_WIDTH as f64 / ASPECT_RATIO) as u32;
 
     let camera = camera::Camera::default();
@@ -31,12 +33,22 @@ fn main() {
         Box::new(Sphere::new(
             vec3!(0, 0, -1),
             0.5,
-            Lambertian::new(vec3!(0.5)),
+            Lambertian::new(vec3!(0.7, 0.3, 0.3)),
         )),
         Box::new(Sphere::new(
             vec3!(0, -100.5, -1),
             100.0,
-            Lambertian::new(vec3!(0.5)),
+            Lambertian::new(vec3!(0.8, 0.8, 0)),
+        )),
+        Box::new(Sphere::new(
+            vec3!(-1, 0, -1),
+            0.5,
+            Metal::new(vec3!(0.8, 0.8, 0.8)),
+        )),
+        Box::new(Sphere::new(
+            vec3!(1, 0, -1),
+            0.5,
+            Metal::new(vec3!(0.8, 0.6, 0.2)),
         )),
     ];
 

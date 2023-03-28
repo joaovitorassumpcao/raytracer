@@ -17,8 +17,9 @@ pub struct Reflection {
     pub color_atten: Color,
 }
 
-pub struct Metal{
-    color: Color
+#[derive(Debug, Clone, Copy, Constructor)]
+pub struct Metal {
+    color: Color,
 }
 
 pub trait Material {
@@ -46,7 +47,16 @@ impl Material for Lambertian {
 
 impl Material for Metal {
     fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
-        todo!()
+        let reflection = reflect(incident_ray.direction, &hit.normal);
+        let scattered = Ray::new(hit.intersec, reflection);
+
+        match scattered.direction.dot(&hit.normal) > 0.0 {
+            true => Some(Reflection {
+                ray: scattered,
+                color_atten: self.color,
+            }),
+            false => None,
+        }
     }
 }
 
