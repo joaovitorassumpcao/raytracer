@@ -81,9 +81,9 @@ impl Vec3 {
         let mut rng: rand::rngs::ThreadRng = thread_rng();
         loop {
             let univec = vec3!(
-                rng.gen_range(-1.0..1.0),
-                rng.gen_range(-1.0..1.0),
-                rng.gen_range(-1.0..1.0)
+                rng.gen_range(-1.0..=1.0),
+                rng.gen_range(-1.0..=1.0),
+                rng.gen_range(-1.0..=1.0)
             );
             if univec.len() < 1.0 {
                 break univec.normalize();
