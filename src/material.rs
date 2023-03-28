@@ -49,3 +49,7 @@ impl Material for Metal {
         todo!()
     }
 }
+
+fn reflect(v: Vec3, normal: &Vec3) -> Vec3 {
+    v - 2.0 * v.dot(normal) * *normal
+}
