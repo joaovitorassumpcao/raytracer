@@ -1,9 +1,15 @@
+//      Copyright João Vitor Cunha Assumpção 2023.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          https://www.boost.org/LICENSE_1_0.txt)
+
 #![allow(dead_code)]
 
 use derive_more::Constructor;
 use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 
 use crate::{
+    material::{Material, Reflection},
     ray::Ray,
     vector::{Point, Vec3},
 };
@@ -18,15 +24,20 @@ pub struct Hit {
     pub normal: Vec3,
     pub t: f64,
     pub front_face: bool,
+    pub reflection: Option<Reflection>,
 }
 
-#[derive(Debug, Constructor)]
-pub struct Sphere {
+#[derive(Debug, Clone, Constructor)]
+pub struct Sphere<T: Material> {
     pub center: Point,
     pub radius: f64,
+    pub material: T,
 }
 
-impl Object for Sphere {
+impl<T> Object for Sphere<T>
+where
+    T: Material,
+{
     fn hit(&self, ray: &Ray, bounds: (f64, f64)) -> Option<Hit> {
         let v = ray.direction;
         let oc = ray.origin - self.center;
@@ -59,12 +70,17 @@ impl Object for Sphere {
             _ => (true, normal),
         };
 
-        Some(Hit {
+        let mut hit = Hit {
             intersec,
             normal,
             t: root,
             front_face,
-        })
+            reflection: None,
+        };
+
+        hit.reflection = self.material.scatter(ray, &hit);
+
+        Some(hit)
     }
 }
 

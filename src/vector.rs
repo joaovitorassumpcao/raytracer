@@ -1,3 +1,8 @@
+//      Copyright João Vitor Cunha Assumpção 2023.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          https://www.boost.org/LICENSE_1_0.txt)
+
 use derive_more::{Add, Constructor, Div, Mul, Neg, Sub};
 use rand::{thread_rng, Rng};
 
@@ -26,6 +31,14 @@ macro_rules! vec3 {
 }
 
 impl Vec3 {
+    const TOLERANCE: f64 = 1e-8;
+
+    const VEC_TOL: Self = Self {
+        x: Self::TOLERANCE,
+        y: Self::TOLERANCE,
+        z: Self::TOLERANCE,
+    };
+
     pub fn dot(&self, other: &Self) -> f64 {
         // x1 * x2 + y1 * y2 + z1 * z2
         self.x * other.x + self.y * other.y + self.z * other.z
@@ -64,18 +77,12 @@ impl Vec3 {
         start * t + end * (1.0 - t)
     }
 
-    pub fn rand_unitvec() -> Self {
-        let mut rng: rand::rngs::ThreadRng = thread_rng();
-        loop {
-            let univec = vec3!(
-                rng.gen_range(-1.0..1.0),
-                rng.gen_range(-1.0..1.0),
-                rng.gen_range(-1.0..1.0)
-            );
-            if univec.len() < 1.0 {
-                break univec.normalize();
-            }
-        }
+    pub fn is_zero(&self) -> bool {
+        &Self {
+            x: self.x.abs(),
+            y: self.y.abs(),
+            z: self.z.abs(),
+        } < &Self::VEC_TOL
     }
 }
 
@@ -101,6 +108,20 @@ impl std::ops::Mul for Vec3 {
             x: self.x * rhs.x,
             y: self.y * rhs.y,
             z: self.z * rhs.z,
+        }
+    }
+}
+
+pub fn rand_unitvec() -> Vec3 {
+    let mut rng: rand::rngs::ThreadRng = thread_rng();
+    loop {
+        let univec = vec3!(
+            rng.gen_range(-1.0..=1.0),
+            rng.gen_range(-1.0..=1.0),
+            rng.gen_range(-1.0..=1.0)
+        );
+        if univec.len() < 1.0 {
+            break univec.normalize();
         }
     }
 }
