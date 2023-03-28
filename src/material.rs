@@ -17,6 +17,10 @@ pub struct Reflection {
     pub color_atten: Color,
 }
 
+pub struct Metal{
+    color: Color
+}
+
 pub trait Material {
     fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection>;
 }
@@ -37,5 +41,11 @@ impl Material for Lambertian {
             ray,
             color_atten: self.0,
         })
+    }
+}
+
+impl Material for Metal {
+    fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
+        todo!()
     }
 }
