@@ -22,7 +22,7 @@ fn main() {
     // Set up the image parameters
     const MAX_DEPTH: u8 = 50;
     const ASPECT_RATIO: f64 = 16.0 / 9.0;
-    const IMG_WIDTH: u32 = 1000;
+    const IMG_WIDTH: u32 = 1920;
     const IMG_HEIGHT: u32 = (IMG_WIDTH as f64 / ASPECT_RATIO) as u32;
 
     let camera = camera::Camera::default();

@@ -38,6 +38,7 @@ impl Material for Lambertian {
         }
 
         let ray = Ray::new(hit.intersec, direction);
+        
         Some(Reflection {
             ray,
             color_atten: self.0,
