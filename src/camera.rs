@@ -3,6 +3,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          https://www.boost.org/LICENSE_1_0.txt)
 
+#[allow(dead_code)]
+
 use crate::{
     ray::Ray,
     vec3,
@@ -38,6 +40,19 @@ impl Default for Camera {
 }
 
 impl Camera {
+    pub fn new(origin: Vec3, ratio: f64, focal: f64, (height, width): (f64, f64)) -> Self {
+        let h_vec = vec3!(width, 0, 0);
+        let v_vec = vec3!(0, -height, 0);
+        let tl_corner: Point = origin - h_vec / 2.0 - v_vec / 2.0 - vec3!(0, 0, focal);
+
+        Self {
+            origin,
+            tl_corner,
+            h_vec,
+            v_vec,
+        }
+    }
+
     pub fn get_ray(&self, u: f64, v: f64) -> Ray {
         let ray_dir: Vec3 = self.tl_corner + u * self.h_vec + v * self.v_vec - self.origin;
         Ray::new(self.origin, ray_dir)
