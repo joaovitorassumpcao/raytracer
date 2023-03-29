@@ -40,7 +40,8 @@ impl Default for Camera {
 }
 
 impl Camera {
-    pub fn new(origin: Vec3, ratio: f64, focal: f64, (height, width): (f64, f64)) -> Self {
+    pub fn new(origin: Vec3, ratio: f64, focal: f64, height: f64) -> Self {
+        let width = ratio * height;
         let h_vec = vec3!(width, 0, 0);
         let v_vec = vec3!(0, -height, 0);
         let tl_corner: Point = origin - h_vec / 2.0 - v_vec / 2.0 - vec3!(0, 0, focal);

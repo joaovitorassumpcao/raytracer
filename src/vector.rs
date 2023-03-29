@@ -78,11 +78,11 @@ impl Vec3 {
     }
 
     pub fn is_zero(&self) -> bool {
-        &Self {
+        Self {
             x: self.x.abs(),
             y: self.y.abs(),
             z: self.z.abs(),
-        } < &Self::VEC_TOL
+        } < Self::VEC_TOL
     }
 }
 

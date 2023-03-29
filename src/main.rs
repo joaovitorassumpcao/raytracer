@@ -10,6 +10,7 @@ use object::{Scene, Sphere};
 use rand::random;
 use rayon::prelude::*;
 
+use crate::camera::Camera;
 use crate::material::Metal;
 
 mod camera;
@@ -25,7 +26,7 @@ fn main() {
     const IMG_WIDTH: u32 = 1920;
     const IMG_HEIGHT: u32 = (IMG_WIDTH as f64 / ASPECT_RATIO) as u32;
 
-    let camera = camera::Camera::default();
+    let camera = Camera::default();
 
     let mut img: RgbImage = ImageBuffer::new(IMG_WIDTH, IMG_HEIGHT);
 
