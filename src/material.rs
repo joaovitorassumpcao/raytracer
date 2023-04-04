@@ -23,12 +23,19 @@ pub struct Metal {
     fuzz: f64,
 }
 
-pub trait Material {
-    fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection>;
+#[derive(Debug, Clone, Copy, Constructor)]
+pub struct Lambertian{
+    color: Color
 }
 
 #[derive(Debug, Clone, Copy, Constructor)]
-pub struct Lambertian(Color);
+pub struct Dielectric {
+    ratio: f64
+}
+
+pub trait Material {
+    fn scatter(&self, incident_ray: &Ray, hit: &Hit) -> Option<Reflection>;
+}
 
 impl Material for Lambertian {
     fn scatter(&self, _incident_ray: &Ray, hit: &Hit) -> Option<Reflection> {
@@ -42,7 +49,7 @@ impl Material for Lambertian {
 
         Some(Reflection {
             ray,
-            color_atten: self.0,
+            color_atten: self.color,
         })
     }
 }
