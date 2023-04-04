@@ -65,3 +65,12 @@ impl Material for Metal {
 fn reflect(v: Vec3, normal: &Vec3) -> Vec3 {
     v - 2.0 * v.dot(normal) * *normal
 }
+
+fn refract(incident_ray: &Ray, normal: &Vec3, ratio: f64) -> Vec3 {
+    let dir = incident_ray.direction.normalize();
+    let cos = -dir.dot(normal);
+    let r_para = ratio * (dir + *normal * cos);
+    let r_perp = -(1.0 - r_para.dot(&r_para)).abs().sqrt() * *normal;
+
+    r_para + r_perp
+}
