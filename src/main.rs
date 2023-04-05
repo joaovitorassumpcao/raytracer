@@ -11,7 +11,7 @@ use rand::random;
 use rayon::prelude::*;
 
 use crate::camera::Camera;
-use crate::material::Metal;
+use crate::material::{Metal, Dielectric};
 
 mod camera;
 mod material;
@@ -32,22 +32,22 @@ fn main() {
     let mut img: RgbImage = ImageBuffer::new(IMG_WIDTH, IMG_HEIGHT);
 
     let scene: Scene = vec![
-        Box::new(Sphere::new(
+        Box::new(Sphere::new( //MIDDLE
             vec3!(0, 0, -1),
             0.5,
             Lambertian::new(vec3!(0.7, 0.3, 0.3)),
         )),
-        Box::new(Sphere::new(
+        Box::new(Sphere::new( //GROUND
             vec3!(0, -100.5, -1),
             100.0,
             Lambertian::new(vec3!(0.8, 0.8, 0)),
         )),
-        Box::new(Sphere::new(
+        Box::new(Sphere::new( //LEFT
             vec3!(-1, 0, -1),
             0.5,
-            Metal::new(vec3!(0.8, 0.8, 0.8), 0.3),
+            Dielectric::new(1.5),
         )),
-        Box::new(Sphere::new(
+        Box::new(Sphere::new( //RIGHT
             vec3!(1, 0, -1),
             0.5,
             Metal::new(vec3!(0.8, 0.6, 0.2), 1.0),
